@@ -58,7 +58,7 @@ Note the default routing method is logit blending for inference, if you want to 
 
 ```
 python3 inference.py --hf_token <your huggingface token> \
-    --top_2_routing True
+    --top_2_routing True \
     --eval_str <the string you would like evaluated> \
     --temperature 0.7 \
     --max_new_tokens 200 \
