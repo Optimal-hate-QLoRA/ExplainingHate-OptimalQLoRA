@@ -1,5 +1,7 @@
 # ExplainingHate-OptimalQLoRA
 
+![Alt text](hate_lora_diagram_v2.jpg)
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Installation](#installation)
