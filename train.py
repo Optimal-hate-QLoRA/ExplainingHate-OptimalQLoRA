@@ -29,12 +29,13 @@ parser = HfArgumentParser(ScriptArguments)
 args = parser.parse_args_into_dataclasses()[0]
 
 def training_function(args):
-    
+    #log in to Huggingface
     login(token=args.hf_token)
 
     # set seed
     set_seed(args.seed)
 
+    #define the data path
     data_path=args.data_path
 
     dataset = load_dataset("json", data_files=data_path)
@@ -46,7 +47,7 @@ def training_function(args):
         bnb_4bit_quant_type="nf4",
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
-
+    #Import model
     model = AutoModelForCausalLM.from_pretrained(
         args.model_name,
         use_cache=False,
@@ -59,9 +60,9 @@ def training_function(args):
     tokenizer = AutoTokenizer.from_pretrained(args.model_name)
     tokenizer.pad_token=tokenizer.eos_token
     tokenizer.padding_side='right'
-
+    #prepare model for 4 bit training 
     model=prepare_model_for_kbit_training(model)
-
+    #find all the linear projection layers in the model for applying LoRA
     modules=find_all_linear_names(model)
     config = LoraConfig(
         r=64,
@@ -71,7 +72,7 @@ def training_function(args):
         task_type='CAUSAL_LM',
         target_modules=modules
     )
-
+    #create PEFT object
     model=get_peft_model(model, config)
     # Define training args
     output_dir = args.output_dir
@@ -94,7 +95,7 @@ def training_function(args):
         push_to_hub=False,
         max_steps = args.max_steps
     )
-
+    #define trainer
     trainer = SFTTrainer(
         model=model,
         train_dataset=dataset['train'],
@@ -103,7 +104,7 @@ def training_function(args):
         tokenizer=tokenizer,
         args=training_arguments
     )
-
+    #convert normalization layers to float 32 for more stable training 
     for name, module in trainer.model.named_modules():
         if "norm" in name:
             module = module.to(torch.float32)
@@ -113,8 +114,7 @@ def training_function(args):
     trainer.train()
 
     print('LoRA training complete')
-    # merge adapter weights with base model and save
-    # save int 4 model
+    # Save trained adapter 
     lora_dir = args.lora_dir
     trainer.model.save_pretrained(lora_dir, safe_serialization=False)
     
