@@ -7,6 +7,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Dataset](#dataset)
+- [License](#license)
 
 ## Introduction
 
@@ -71,6 +72,10 @@ python3 inference.py --hf_token <your huggingface token> \
 # Dataset
 
 We make publicly available two different datasets that we used for training: Our microblogging platforms dataset, collected by (Davidson et al., 2017, Mathews et al., 2022) with annotations added by GPT4, and our Collaborative editing platforms dataset, collected by Jigsaw and Conversational AI (Cjadams et al., 2017). We cannot make the data and annotations from the niche forums platform (Pastrana et al., 2018) our agreement with Cambridge University prohibits public sharing of this data. 
+
+## License
+
+This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
 
 
