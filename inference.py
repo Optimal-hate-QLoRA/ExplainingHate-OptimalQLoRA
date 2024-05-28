@@ -45,14 +45,14 @@ def inference_function(args):
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = 'left'
     #load in adapters
-    model = PeftModel.from_pretrained(base_model, "jbrophy123/llama2_7B_full",
+    model = PeftModel.from_pretrained(base_model, "huli-4761/llama2_7B_full",
                                   adapter_name="full_adapter")
 
-    model.load_adapter("jbrophy123/llama2_7B_forums",
+    model.load_adapter("huli-4761/llama2_7B_forums",
                    adapter_name='forums_adapter')
-    model.load_adapter("jbrophy123/llama2_7B_microblog",
+    model.load_adapter("huli-4761/llama2_7B_microblog",
                     adapter_name="tw_gab_adapter")
-    model.load_adapter("jbrophy123/llama2_7B_wiki",
+    model.load_adapter("huli-4761/llama2_7B_wiki",
                     adapter_name='wiki_adapter')
     #load in pre-trained sentence embedding model
     encoder = SentenceTransformer('all-MiniLM-L6-v2')
