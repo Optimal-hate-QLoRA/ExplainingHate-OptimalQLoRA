@@ -21,7 +21,7 @@ This study introduces a hate speech detection framework integrating the expansiv
 
 To download and use the code please run the following command in the console/terminal:
 
-```git clone https://github.com/akejay526/ExplainingHate-OptimalQLoRA.git```
+```https://github.com/Optimal-hate-QLoRA/ExplainingHate-OptimalQLoRA.git```
 
 Following this, install the required packages with 
 
